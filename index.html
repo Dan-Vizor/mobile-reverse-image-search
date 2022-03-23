@@ -12,6 +12,13 @@
 		a {
 			color: #55cadf;
 		}
+
+		.centered {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			width: 50%;
+		}
 	</style>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Mobile Reverse Image Search</title>
@@ -20,20 +27,30 @@
 			LoadURL()
 		};
 
+	function checkURL(url) {
+		return(url.match(/^http.*\.(jpeg|jpg|gif|png)$/) != null);
+	}
+
 	function LoadURL(){
 		var InputURL = document.getElementById("URLInputBox").value;
 
 		if (InputURL.length != 0) {
-			document.getElementById("PreviewImage").src = "images/loading.gif";
-			document.getElementById("Google").href = "https://www.google.com/searchbyimage?image_url=" + encodeURIComponent(InputURL);
-			document.getElementById("SauceNAO").href = "https://saucenao.com/search.php?url=" + encodeURIComponent(InputURL);
-			document.getElementById("Yandex").href = "https://yandex.com/images/search?rpt=imageview&url=" + encodeURIComponent(InputURL);
-			document.getElementById("PreviewImage").src = InputURL;
+			if (checkURL(InputURL)) {
+				document.getElementById("PreviewImage").src = "images/loading.gif";
+				document.getElementById("Google").href = "https://www.google.com/searchbyimage?image_url=" + encodeURIComponent(InputURL);
+				document.getElementById("SauceNAO").href = "https://saucenao.com/search.php?url=" + encodeURIComponent(InputURL);
+				document.getElementById("Yandex").href = "https://yandex.com/images/search?rpt=imageview&url=" + encodeURIComponent(InputURL);
+				document.getElementById("trace.moe").href = "https://trace.moe/?url=" + encodeURIComponent(InputURL);
+				document.getElementById("PreviewImage").src = InputURL;
+			} else {
+				document.getElementById("PreviewImage").src = "images/invalid.png";
+			};
 		} else {
 			document.getElementById("PreviewImage").src = "images/defult.png";
 			document.getElementById("Google").href = "https://www.google.co.uk/imghp/";
 			document.getElementById("SauceNAO").href = "https://saucenao.com/";
 			document.getElementById("Yandex").href = "https://yandex.com/images/";
+			document.getElementById("trace.moe").href = "https://trace.moe/";
 		};
 
 		setTimeout(LoadURL, 500);
@@ -42,19 +59,24 @@
 </head>
 
 <body>
-	<h1 style="text-align: center;">Mobile Reverse Image Search</h1>
+	<h1 style="text-align: center; padding-bottom: 5px;">Mobile Reverse Image Search</h1>
 	<div style="width: 99%; padding-left: 1%;">
-		<input type="text" id="URLInputBox" style="width: 90%; font-size:24px;">
+		<input type="text" id="URLInputBox" style="width: 90%; font-size:24px;" class="centered" placeholder="paste image link">
 		<br><br>
-		<img src="images/defult.png" id="PreviewImage" style="height: auto; width: 80%;">
+		<img src="images/defult.png" id="PreviewImage" style="height: auto; width: 80%;" class="centered">
 
 		<br><br><br><br>
 
-		<a id="Google" href="https://www.google.co.uk/imghp/" target="_blank"><img src="images/Google.png" style="height: auto; width: 40%;"></a>
-		<br><br>
-		<a id="SauceNAO" href="https://saucenao.com/" target="_blank"><img src="images/SauceNAO.png" style="height: auto; width: 40%;"></a>
-		<br><br>
-		<a id="Yandex" href="https://yandex.com/images/" target="_blank"><img src="images/Yandex.png" style="height: auto; width: 40%;"></a>
+		<table style="width:100%">
+			<tr>
+				<th style="width: 46%; padding-left: 2%; padding-right: 2%;"><a id="Google" href="https://www.google.co.uk/imghp/" target="_blank"><img src="images/Google.png" style="height: auto; width: 100%;"></a><br><h2>Google</h2></th>
+				<th style="width: 46%; padding-left: 2%; padding-right: 2%;"><a id="SauceNAO" href="https://saucenao.com/" target="_blank"><img src="images/SauceNAO.png" style="height: auto; width: 100%;"></a><br><h2>SauceNAO</h2></th>
+			</tr>
+			<tr>
+				<th style="width: 46%; padding-left: 2%; padding-right: 2%;"><a id="Yandex" href="https://yandex.com/images/" target="_blank"><img src="images/Yandex.png" style="height: auto; width: 100%;"></a><br><h2>Yandex</h2></th>
+				<th style="width: 46%; padding-left: 2%; padding-right: 2%;"><a id="trace.moe" href="https://trace.moe/" target="_blank"><img src="images/trace.moe.webp" style="height: auto; width: 100%;"></a><br><h2>trace.moe</h2></th>
+			</tr>
+		</table>
 	</div>
 </body>
 </html> 
